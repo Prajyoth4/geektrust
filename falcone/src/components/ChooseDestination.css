@@ -1,0 +1,10 @@
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 16em;
+}
+
+.select-tag {
+  width: 50%;
+}
