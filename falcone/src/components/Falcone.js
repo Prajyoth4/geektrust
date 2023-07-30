@@ -62,7 +62,8 @@ const createDestinationArray = (
   allData,
   chosenData,
   setChosenData,
-  setTimeTaken
+  setTimeTaken,
+  reset
 ) => {
   let result = [];
   for (let i = 1; i <= 4; i++) {
@@ -75,6 +76,7 @@ const createDestinationArray = (
         chosenData={chosenData}
         setChosenData={setChosenData}
         setTimeTaken={setTimeTaken}
+        reset={reset}
       />
     );
   }
@@ -125,6 +127,7 @@ const Falcone = ({ setTotalTime, setPlanetFound, reset, setReset }) => {
   //const [allVehicles, setAllVehicles] = useState();
   const [chosenData, setChosenData] = useState({ planets: [], vehicles: [] });
   const [timeTaken, setTimeTaken] = useState(0);
+  const [numSelected, setNumSelected] = useState(0);
   //const [chosenVehicles, setChosenVehicles] = useState();
   const navigate = useNavigate();
   useEffect(() => {
@@ -132,45 +135,51 @@ const Falcone = ({ setTotalTime, setPlanetFound, reset, setReset }) => {
     //getVehicles(setData)
   }, []);
   useEffect(() => {
+    console.log("Reset value changed");
+    setNumSelected(0);
     setTimeTaken(0);
     setChosenData({ planets: [], vehicles: [] });
-    if (reset != 0) {
-      setReset(0);
-    }
-    navigate("/");
+    // if (reset !== 0) {
+    //   console.log(reset);
+    //   setReset(0);
+    // }
+    // navigate("/");
   }, [reset]);
   //apiCall();
-  const [numSelected, setNumSelected] = useState(0);
+
   return (
     <div className="falcone">
       <Header setReset={setReset} />
       <h1>Finding Falcone!</h1>
       <h3>Select planets you want to search in:</h3>
-      <div className="destination-array">
-        {createDestinationArray(
-          numSelected,
-          setNumSelected,
-          allData,
-          chosenData,
-          setChosenData,
-          setTimeTaken
-        )}
-        <div>Time Taken:{timeTaken}</div>
-      </div>
-      <button
-        disabled={numSelected < 4}
-        onClick={() => {
-          handleFindFalcone(
+      <div className="content">
+        <div className="destination-array">
+          {createDestinationArray(
+            numSelected,
+            setNumSelected,
+            allData,
             chosenData,
-            timeTaken,
-            setTotalTime,
-            setPlanetFound,
-            navigate
-          );
-        }}
-      >
-        Find Falcone!
-      </button>
+            setChosenData,
+            setTimeTaken,
+            reset
+          )}
+          <h3>Time Taken:{timeTaken}</h3>
+        </div>
+        <button
+          disabled={numSelected < 4}
+          onClick={() => {
+            handleFindFalcone(
+              chosenData,
+              timeTaken,
+              setTotalTime,
+              setPlanetFound,
+              navigate
+            );
+          }}
+        >
+          Find Falcone!
+        </button>
+      </div>
       <Footer />
     </div>
   );

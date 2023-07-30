@@ -9,9 +9,13 @@ const ChooseDestination = ({
   chosenData,
   setChosenData,
   setTimeTaken,
+  reset,
 }) => {
   const [disable, setDisable] = useState(true);
   const [disableRadio, setDisableRadio] = useState(true);
+  useEffect(() => {
+    setDisableRadio(true);
+  }, [reset]);
 
   const handleRadioClick = (ele) => {
     setChosenData((prev) => {
@@ -95,74 +99,72 @@ const ChooseDestination = ({
   }, [numSelected]);
 
   return (
-    <div>
-      <div className="dropdown">
-        <h5>Destination {index}</h5>
-        <select
-          name="planets"
-          id="planets"
-          onChange={(e) => {
-            handleSelectChange(e);
-          }}
-          className="select-tag"
-          disabled={disable}
-          defaultValue={"default"}
-        >
-          <option value="default" disabled>
-            Select a planet
-          </option>
-          {allData.planets.map((ele) => {
-            let disablePlanet = false;
-            for (let i = 0; i < chosenData.planets.length; i++) {
-              if (ele.name === chosenData.planets[i]) {
-                disablePlanet = true;
-                break;
-              }
+    <div className="dropdown">
+      <h5>Destination {index}</h5>
+      <select
+        name="planets"
+        id="planets"
+        onChange={(e) => {
+          handleSelectChange(e);
+        }}
+        className="select-tag"
+        disabled={disable}
+        defaultValue={"default"}
+      >
+        <option value="default" disabled>
+          Select a planet
+        </option>
+        {allData.planets.map((ele) => {
+          let disablePlanet = false;
+          for (let i = 0; i < chosenData.planets.length; i++) {
+            if (ele.name === chosenData.planets[i]) {
+              disablePlanet = true;
+              break;
             }
+          }
+          return (
+            <option value={ele.name} disabled={disablePlanet}>
+              {ele.name}
+            </option>
+          );
+        })}
+      </select>
+
+      {!disableRadio && (
+        <div className="dropdown">
+          {allData.vehicles.map((ele) => {
+            //console.log(ele);
+            let [disableVehicle, numVehicle] = vehicleIsValid(ele);
+            // let disableVehicle = disable;
+            // let numVehicle = ele.total_no;
+            // for (let i = 0; i < chosenData.vehicles.length; i++) {
+            //   if (chosenData.vehicles[i] === ele.name) {
+            //     numVehicle -= 1;
+            //   }
+            // }
+            // if (numVehicle === 0) {
+            //   disableVehicle = true;
+            // }
+            // if (ele.max_distance < getCurDistance()) {
+            //   disableVehicle = true;
+            // }
             return (
-              <option value={ele.name} disabled={disablePlanet}>
-                {ele.name}
-              </option>
+              <label for={ele.name}>
+                <input
+                  type="radio"
+                  id={ele.name}
+                  name={`${index}pod`}
+                  disabled={disableVehicle}
+                  onClick={() => {
+                    handleRadioClick(ele);
+                  }}
+                />
+                {ele.name + ` (${numVehicle})`}
+              </label>
             );
           })}
-        </select>
-
-        {!disableRadio && (
-          <div className="dropdown">
-            {allData.vehicles.map((ele) => {
-              //console.log(ele);
-              let [disableVehicle, numVehicle] = vehicleIsValid(ele);
-              // let disableVehicle = disable;
-              // let numVehicle = ele.total_no;
-              // for (let i = 0; i < chosenData.vehicles.length; i++) {
-              //   if (chosenData.vehicles[i] === ele.name) {
-              //     numVehicle -= 1;
-              //   }
-              // }
-              // if (numVehicle === 0) {
-              //   disableVehicle = true;
-              // }
-              // if (ele.max_distance < getCurDistance()) {
-              //   disableVehicle = true;
-              // }
-              return (
-                <label for={ele.name}>
-                  <input
-                    type="radio"
-                    id={ele.name}
-                    name={`${index}pod`}
-                    disabled={disableVehicle}
-                    onClick={() => {
-                      handleRadioClick(ele);
-                    }}
-                  />
-                  {ele.name + ` (${numVehicle})`}
-                </label>
-              );
-            })}
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

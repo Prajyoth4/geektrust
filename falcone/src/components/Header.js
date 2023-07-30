@@ -1,9 +1,18 @@
 import "./Header.css";
 
 const Header = ({ setReset }) => {
+  const handleClick = () => {
+    console.log("handle click reset button");
+    setReset(1);
+  };
   return (
     <div className="header">
-      <button type="button" onClick={setReset(1)}>
+      <button
+        type="button"
+        onClick={() => {
+          handleClick();
+        }}
+      >
         Reset
       </button>
       <button type="button">
