@@ -27,23 +27,13 @@ const ChooseDestination = ({
     setNumSelected((prev) => {
       return prev + 1;
     });
-    // let planet = chosenData.planets[chosenData.planets.length - 1];
     let distance = getCurDistance();
-    // for (let i = 0; i < allData.planets.length; i++) {
-    //   if (planet === allData.planets[i].name) {
-    //     distance = allData.planets[i].distance;
-    //     break;
-    //   }
-    // }
     let time = distance / ele.speed;
     setTimeTaken((prev) => prev + time);
-    // setDisableRadio(true);
   };
 
   const handleSelectChange = (e) => {
     setDisableRadio(false);
-    //console.log(e.target.value);
-    //setDisable(true);
 
     setChosenData((prev) => {
       let planetArray = prev.planets;
@@ -90,12 +80,6 @@ const ChooseDestination = ({
     } else {
       setDisable(true);
     }
-
-    // if (index > numSelected + 1) {
-    //   setDisableRadio(true);
-    // } else {
-    //   setDisableRadio(false);
-    // }
   }, [numSelected]);
 
   return (
@@ -133,21 +117,7 @@ const ChooseDestination = ({
       {!disableRadio && (
         <div className="dropdown">
           {allData.vehicles.map((ele) => {
-            //console.log(ele);
             let [disableVehicle, numVehicle] = vehicleIsValid(ele);
-            // let disableVehicle = disable;
-            // let numVehicle = ele.total_no;
-            // for (let i = 0; i < chosenData.vehicles.length; i++) {
-            //   if (chosenData.vehicles[i] === ele.name) {
-            //     numVehicle -= 1;
-            //   }
-            // }
-            // if (numVehicle === 0) {
-            //   disableVehicle = true;
-            // }
-            // if (ele.max_distance < getCurDistance()) {
-            //   disableVehicle = true;
-            // }
             return (
               <label for={ele.name}>
                 <input
