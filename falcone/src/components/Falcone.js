@@ -112,13 +112,15 @@ const handleFindFalcone = async (
   if (result.data.status === "success") {
     setTotalTime(timeTaken);
     setPlanetFound(result.data.planet_name);
-    navigate("/");
+    navigate("/result");
   } else {
-    navigate("/");
+    setTotalTime(timeTaken);
+    setPlanetFound("");
+    navigate("/result");
   }
 };
 
-const Falcone = ({ setTotalTime, setPlanetFound }) => {
+const Falcone = ({ setTotalTime, setPlanetFound, reset, setReset }) => {
   const [allData, setAllData] = useState({ planets: [], vehicles: [] });
   //const [allVehicles, setAllVehicles] = useState();
   const [chosenData, setChosenData] = useState({ planets: [], vehicles: [] });
@@ -129,11 +131,19 @@ const Falcone = ({ setTotalTime, setPlanetFound }) => {
     getData(setAllData);
     //getVehicles(setData)
   }, []);
+  useEffect(() => {
+    setTimeTaken(0);
+    setChosenData({ planets: [], vehicles: [] });
+    if (reset != 0) {
+      setReset(0);
+    }
+    navigate("/");
+  }, [reset]);
   //apiCall();
   const [numSelected, setNumSelected] = useState(0);
   return (
     <div className="falcone">
-      <Header />
+      <Header setReset={setReset} />
       <h1>Finding Falcone!</h1>
       <h3>Select planets you want to search in:</h3>
       <div className="destination-array">

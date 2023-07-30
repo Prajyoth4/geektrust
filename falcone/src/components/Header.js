@@ -1,9 +1,11 @@
 import "./Header.css";
 
-const Header = () => {
+const Header = ({ setReset }) => {
   return (
     <div className="header">
-      <button type="button">Reset</button>
+      <button type="button" onClick={setReset(1)}>
+        Reset
+      </button>
       <button type="button">
         <a className="header-anchor" href="https://www.geektrust.com/">
           Geektrust home
